@@ -48,8 +48,13 @@ def return_negatives():
     
     Use Case: Create an anomaly detection algorithm (the anomaly is a phishing link)
     '''
+    file = open('tranco.csv', 'r')
 
-    x, y = None, None
+    x, y = [], []
+
+    for i, line in enumerate(file):
+        data = line.strip().split(',')
+        x.append(data[1].strip().lower())
 
     return x, y
 
@@ -63,7 +68,11 @@ def return_all():
 
     '''
 
-    x, y = None, None
+    x_neg, y_neg = return_negatives()
+    x_pos, y_pos = return_positives()
+
+    x = x_neg + x_pos
+    y = y_neg + y_pos 
 
     return x, y
 
@@ -74,6 +83,7 @@ def generate_data(data_type="positive", encoding="char_encoding", *args, **kwarg
 
     '''
     func_call = None
+    encoder = kwargs['encoder_obj'] if 'encoder_obj' in kwargs else WordEncoder()
 
     if data_type == "positive":
         func_call = return_positives
@@ -83,12 +93,10 @@ def generate_data(data_type="positive", encoding="char_encoding", *args, **kwarg
         func_call = return_all
 
     x, y = func_call()
-
-    encoder = WordEncoder()
     
     if encoding == "char_encoding":
         x = encoder.encode_char(x)
     else:
         x = x
 
-    return x, y, encoder.vocab_size
+    return x, y, encoder
