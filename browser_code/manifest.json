@@ -1,0 +1,13 @@
+{
+    "name" : "Phishing Detection Extension",
+    "description" : "Extension that uses machine learning to detect whether a selected link is a phishing link",
+    "version" : "1.0",
+    "manifest_version" : 3,
+    "permissions" : [
+        "webNavigation"
+    ],
+    "action" : {
+        "default_popup" : "hello.html",
+        "default_icon" : "fishing_icon.png"
+    }
+}
